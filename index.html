@@ -25,7 +25,8 @@
   <!-- Load Rive Runtime -->
   <script src="https://cdn.rive.app/js/2.7.0/rive.min.js"></script>
   <script>
-    const riveFile = "https://public.rive.app/community/runtime-files/17663-33145-touch-of-nature.riv";
+    // Change this to your uploaded .riv file
+    const riveFile = "animation.riv";
 
     let riveInstance;
 
@@ -40,11 +41,12 @@
       },
     });
 
+    // Keep the canvas responsive
     window.addEventListener("resize", () => {
       if (riveInstance) riveInstance.resizeDrawingSurfaceToCanvas();
     });
 
-    // Optional: Make the cursor move affect inputs
+    // Mouse-based interaction for state machine
     document.addEventListener("mousemove", (e) => {
       if (!riveInstance) return;
 
@@ -65,3 +67,4 @@
   </script>
 </body>
 </html>
+
