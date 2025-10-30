@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rive Interactive Animation</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="riveCanvas"></canvas>
+
+  <!-- Load Rive Runtime -->
+  <script src="https://cdn.rive.app/js/2.7.0/rive.min.js"></script>
+  <script>
+    const riveFile = "https://public.rive.app/community/runtime-files/17663-33145-touch-of-nature.riv";
+
+    let riveInstance;
+
+    new rive.Rive({
+      src: riveFile,
+      canvas: document.getElementById("riveCanvas"),
+      autoplay: true,
+      stateMachines: ["State Machine 1"],
+      onLoad: (rive) => {
+        riveInstance = rive;
+        riveInstance.resizeDrawingSurfaceToCanvas();
+      },
+    });
+
+    window.addEventListener("resize", () => {
+      if (riveInstance) riveInstance.resizeDrawingSurfaceToCanvas();
+    });
+
+    // Optional: Make the cursor move affect inputs
+    document.addEventListener("mousemove", (e) => {
+      if (!riveInstance) return;
+
+      const canvas = document.getElementById("riveCanvas");
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const inputs = riveInstance.stateMachineInputs("State Machine 1");
+      const inputX = inputs.find(i => i.name.toLowerCase().includes("x"));
+      const inputY = inputs.find(i => i.name.toLowerCase().includes("y"));
+
+      if (inputX && inputY) {
+        inputX.value = x;
+        inputY.value = y;
+      }
+    });
+  </script>
+</body>
+</html>
